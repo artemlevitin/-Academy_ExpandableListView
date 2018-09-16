@@ -6,7 +6,7 @@ public class Group {
     private ArrayList<Student> students ;
     private String groupName;
     public Group(String groupName){
-         this.groupName= groupName;
+         this.setGroupName(groupName);
          setStudents(new ArrayList<Student>());
     }
 
@@ -53,4 +53,11 @@ public class Group {
         return groupSting;
     }
 
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 }

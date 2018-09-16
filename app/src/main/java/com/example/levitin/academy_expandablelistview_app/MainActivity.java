@@ -1,7 +1,9 @@
 package com.example.levitin.academy_expandablelistview_app;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ExpandableListView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,6 +14,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createAcademy();
+        Academy_BaseExpListAdapter academy_Adapter = new Academy_BaseExpListAdapter(this,this,academy);
+        ExpandableListView expandableListView = findViewById(R.id.academy_expandableListView);
+        expandableListView.setAdapter(academy_Adapter);
 
     }
 
