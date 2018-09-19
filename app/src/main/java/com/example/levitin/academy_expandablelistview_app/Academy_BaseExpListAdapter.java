@@ -28,6 +28,13 @@ public class Academy_BaseExpListAdapter extends BaseExpandableListAdapter {
     this.academy =academy;
 
     }
+
+    public void addStudent(Student student,int position ){
+        Group gr = (Group) this.getGroup(position);
+       gr.addStudent(student);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getGroupCount() {
         return academy.getGroups().size();

@@ -1,6 +1,5 @@
 package com.example.levitin.academy_expandablelistview_app;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,13 +9,15 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private Academy academy;
     ExpandableListView expandableListView;
     Academy_BaseExpListAdapter academy_Adapter;
+    final int addStudent_reqCode =1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +65,31 @@ public class MainActivity extends AppCompatActivity {
 
     public  void addStudentClick(View view){
         Intent intent = new Intent(this,AddNewStudentActivity.class);
-        startActivityForResult(intent,codeResult);
+        startActivityForResult(intent, addStudent_reqCode);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent){
-        if(requestCode==codeResult){
+        if(requestCode== addStudent_reqCode){
             if(resultCode==RESULT_OK){
-                Student st = (Student) intent.getSerializableExtra("student");
-                studentDataList.add(studentToMap(st));
-                smplAdapter.notifyDataSetChanged();
-
-            }
+                addStudent(intent);
+                }
         }
         else{
             super.onActivityResult(requestCode, resultCode, intent);
         }
+    }
+
+    private void addStudent(Intent intent) {
+        Student st = (Student) intent.getSerializableExtra("student");
+        String groupName = "IOT-21";
+        ArrayList<Group> grList = academy.getGroups();
+        for( int position =0; position < grList.size(); ++position){
+            Group group = grList.get(position);
+            if(group.getGroupName().equals(groupName))
+                group.addStudent(st);
+            academy_Adapter.addStudent(st,position);
+        }
+        academy.getGroups().get(0).addStudent(st);
     }
 }
