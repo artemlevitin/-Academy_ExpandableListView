@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,22 +51,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRemoveStudentClick(View view){
-        for( int i =0; i<expandableListView.getCount();++i){
-            LinearLayout line= (LinearLayout)expandableListView.getChildAt(i);
-            CheckBox chBox = line.findViewById(R.id.student_checkBox);
-            if (chBox.isChecked()) {
-                TextView lNameView =(TextView) line.findViewById(R.id.lastName);
-              //  studentDataList.remove( findStudent(lNameView.getText().toString()) );
-                academy_Adapter.notifyDataSetChanged();
-            }
-        }
+       /* for( int i =0; i < expandableListView.getCount(); ++i) {
+            ListView listView = (ListView) expandableListView.getChildAt(i);
 
+            for (int j = 0; j < listView.getCount(); ++j) {
+                LinearLayout line = (LinearLayout) listView.getChildAt(j);
+                CheckBox chBox = line.findViewById(R.id.student_checkBox);
+                if (chBox.isChecked()) {
+                    TextView idStudentView = (TextView) line.findViewById(R.id.idStudent);
+                    academy.getGroups().get(i).remStudent(idStudentView.getText().toString());
+                    //  studentDataList.remove( findStudent(lNameView.getText().toString()) );
+                }
+            }
+            academy_Adapter.notifyDataSetChanged();
+        }
+        */
     }
 
 
     public  void addStudentClick(View view){
-        Intent intent = new Intent(this,AddNewStudentActivity.class);
+        Intent intent = new Intent(this,AddStudentNewActivity.class);
         startActivityForResult(intent, addStudent_reqCode);
+        //startActivity(intent);
     }
 
     @Override
@@ -81,15 +88,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addStudent(Intent intent) {
-        Student st = (Student) intent.getSerializableExtra("student");
-        String groupName = "IOT-21";
+       boolean isGenderFemale = intent.getBooleanExtra("isGenderFemale",true);
+        Student.Gender gender = intent.getBooleanExtra("isGenderFemale",true)? Student.Gender.FEMALE:Student.Gender.MALE;
+        Student st = new Student(
+                intent.getStringExtra("fName"),
+                intent.getStringExtra("lName"),
+                gender
+        );
+
+        String groupName = intent.getStringExtra("grName");
         ArrayList<Group> grList = academy.getGroups();
         for( int position =0; position < grList.size(); ++position){
             Group group = grList.get(position);
-            if(group.getGroupName().equals(groupName))
+            if(group.getGroupName().equals(groupName)) {
                 group.addStudent(st);
-            academy_Adapter.addStudent(st,position);
+               expandableListView.deferNotifyDataSetChanged();
+               expandableListView.expandGroup(position);
+                break;
+            }
         }
-        academy.getGroups().get(0).addStudent(st);
+
     }
 }

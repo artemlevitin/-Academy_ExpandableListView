@@ -27,6 +27,14 @@
         android:layout_weight="1"
         android:text="lastName" />
 
+    <TextView
+        android:id="@+id/idStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="idStudent"
+        android:visibility="gone" />
+
     <CheckBox
         android:id="@+id/student_checkBox"
         android:layout_width="wrap_content"

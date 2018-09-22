@@ -14,6 +14,7 @@ public class Student implements Serializable {
     public Student(String fName, String lName, Gender gnd){
         setFirstName(fName);
         setLastName(lName);
+        setIdStudent();
         setGender(gnd);
     }
 

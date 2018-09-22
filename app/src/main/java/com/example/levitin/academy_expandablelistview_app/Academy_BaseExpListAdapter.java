@@ -29,12 +29,6 @@ public class Academy_BaseExpListAdapter extends BaseExpandableListAdapter {
 
     }
 
-    public void addStudent(Student student,int position ){
-        Group gr = (Group) this.getGroup(position);
-       gr.addStudent(student);
-        this.notifyDataSetChanged();
-    }
-
     @Override
     public int getGroupCount() {
         return academy.getGroups().size();
@@ -88,11 +82,15 @@ public class Academy_BaseExpListAdapter extends BaseExpandableListAdapter {
         View resView = inflater.inflate(R.layout.student_item,null);
         TextView fName = resView.findViewById(R.id.firstName);
         TextView lName = resView.findViewById(R.id.lastName);
+        TextView idStudent = resView.findViewById(R.id.idStudent);
         ImageView imgGender = resView.findViewById(R.id.gender_Image);
+
 
         Student student = academy.getGroups().get(groupPosition).getStudents().get(childPosition);
         fName.setText(student.getFirstName());
         lName.setText(student.getLastName());
+        idStudent.setText(student.getIdStudent());
+
         int gender = student.getGender()== Student.Gender.MALE? R.drawable.boy:R.drawable.girl;
         imgGender.setImageResource(gender);
         return resView;
